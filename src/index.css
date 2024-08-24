@@ -15,7 +15,7 @@ body {
 
 /* dark mode looking scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 2px;
 }
 
 ::-webkit-scrollbar-track {
@@ -24,7 +24,7 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background: #121212;
-  border-radius: 5px;
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
