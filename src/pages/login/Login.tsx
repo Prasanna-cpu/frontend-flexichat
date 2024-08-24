@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
 const Login :React.FunctionComponent= () => {
     return (
@@ -33,9 +34,9 @@ const Login :React.FunctionComponent= () => {
                         />
                     </div>
 
-                    <a href={"#"} className={"text-sm text-white hover:underline hover:text-blue-500 mt-2 inline-block"}>
+                    <Link to={"/signup"} className={"text-sm text-white hover:underline hover:text-blue-500 mt-2 inline-block"}>
                         {"Don't"} have an account
-                    </a>
+                    </Link>
 
                     <div>
                         <button className={"btn btn-block btn-sm mt-2 bg-green-700 hover:bg-blue-700 text-white border-none"}>

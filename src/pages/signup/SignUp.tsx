@@ -1,7 +1,31 @@
-import React from 'react';
+import React, {FormEvent, useState} from 'react';
 import GenderCheckbox from "./GenderCheckbox.tsx";
+import {Link} from "react-router-dom";
 
 const SignUp :React.FunctionComponent = () => {
+
+
+    const [inputs,setInputs]=useState({
+        fullName:"",
+        username:"",
+        password:"",
+        confirmPassword:"",
+        gender:""
+    })
+    
+    function handleCheckBoxChange(gender: string){
+        setInputs({
+            ...inputs,
+            gender
+        })
+    }
+
+
+    function handleSubmit(e:FormEvent) {
+        e.preventDefault()
+        console.log(inputs)
+    }
+
     return (
         <div className={"flex flex-col items-center justify-center min-w-96 mx-auto"}>
 
@@ -12,7 +36,7 @@ const SignUp :React.FunctionComponent = () => {
 
                 </h1>
 
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div>
                         <label className={"label p-2 "}>
                             <span className={"text-base label-text text-white"}>Full Name</span>
@@ -21,6 +45,8 @@ const SignUp :React.FunctionComponent = () => {
                             type='text'
                             placeholder={"Enter your full name"}
                             className={"w-full input input-bordered h-10"}
+                            value={inputs.fullName}
+                            onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setInputs({...inputs,fullName:e.target.value})}
                         />
 
                     </div>
@@ -29,8 +55,13 @@ const SignUp :React.FunctionComponent = () => {
                         <label className={"label p-2"}>
                             <span className={"text-base label-text text-white"}>Username</span>
                         </label>
-                        <input type='text' placeholder={"Enter your username"}
-                               className={"w-full input input-bordered h-10"}/>
+                        <input
+                            type='text'
+                            placeholder={"Enter your username"}
+                            className={"w-full input input-bordered h-10"}
+                            value={inputs.username}
+                            onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setInputs({...inputs,username:e.target.value})}
+                        />
                     </div>
 
 
@@ -38,24 +69,34 @@ const SignUp :React.FunctionComponent = () => {
                         <label className={"label p-2"}>
                             <span className={"text-base label-text text-white"}>Password</span>
                         </label>
-                        <input type='password' placeholder={"Enter your password"}
-                               className={"w-full input input-bordered h-10"}/>
+                        <input
+                            type='password'
+                            placeholder={"Enter your password"}
+                            className={"w-full input input-bordered h-10"}
+                            value={inputs.password}
+                            onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setInputs({...inputs,password:e.target.value})}
+                        />
                     </div>
 
                     <div>
                         <label className={"label p-2"}>
                             <span className={"text-base label-text text-white"}>Confirm Password</span>
                         </label>
-                        <input type='password' placeholder={"Confirm password"}
-                               className={"w-full input input-bordered h-10"}/>
+                        <input
+                            type='password'
+                            placeholder={"Confirm password"}
+                            className={"w-full input input-bordered h-10"}
+                            value={inputs.confirmPassword}
+                            onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setInputs({...inputs,confirmPassword:e.target.value})}
+                        />
                     </div>
 
-                    <GenderCheckbox/>
+                    <GenderCheckbox onCheckboxChange={handleCheckBoxChange} selectedGender={inputs.gender}/>
 
-                    <a href={"#"}
+                    <Link to={"/login"}
                        className={"text-sm text-white hover:underline hover:text-blue-500 mt-2 inline-block"}>
                         Already have an account?
-                    </a>
+                    </Link>
 
                     <div>
                         <button
