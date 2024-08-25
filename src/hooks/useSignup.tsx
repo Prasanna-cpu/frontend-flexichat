@@ -1,5 +1,8 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import toast from "react-hot-toast";
+import apiClient from "../utils/api.ts";
+import {useAuthContext} from "../context/AuthContext.tsx";
+
 
 interface SignupInputs {
     fullName: string;
@@ -32,10 +35,12 @@ function handleInputErrors(
    return true
 }
 
-const UseSignup :React.FunctionComponent= () => {
+const useSignup = () => {
 
 
     const [loading,setLoading]=useState<boolean>(false)
+
+    const {setAuthUser}=useAuthContext()
 
 
 
@@ -48,23 +53,43 @@ const UseSignup :React.FunctionComponent= () => {
             return
         }
         
+        setLoading(true)
+
+
+        const {fullName, username, password, confirmPassword,gender} = inputs;
 
         try{
-            
+            const res=await apiClient.post("/api/auth/register",{
+                fullName,
+                username,
+                password,
+                confirmPassword,
+                gender
+            })
+
+            console.log(res.data)
+
+            if(res.data.error){
+                throw new Error(res.data.error)
+            }
+
+            localStorage.setItem("chat-user",JSON.stringify(res.data))
+            setAuthUser(res.data)
+
         }
         catch(error){
-            toast.error(error.message)
+            
+            toast.error((error as Error).message)
+        }
+        finally {
+            setLoading(false)
         }
         
         
         
     }
 
-    return (
-        <div>
-
-        </div>
-    );
+    return {loading,handleSignup}
 };
 
-export default UseSignup;
+export default useSignup;

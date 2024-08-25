@@ -1,8 +1,12 @@
 import React, {FormEvent, useState} from 'react';
 import GenderCheckbox from "./GenderCheckbox.tsx";
 import {Link} from "react-router-dom";
+import useSignup from "../../hooks/useSignup.tsx";
 
 const SignUp :React.FunctionComponent = () => {
+
+
+    const {loading,handleSignup}=useSignup()
 
 
     const [inputs,setInputs]=useState({
@@ -21,9 +25,10 @@ const SignUp :React.FunctionComponent = () => {
     }
 
 
-    function handleSubmit(e:FormEvent) {
+    async function handleSubmit(e:FormEvent) {
         e.preventDefault()
         console.log(inputs)
+        await handleSignup(inputs)
     }
 
     return (
@@ -100,8 +105,14 @@ const SignUp :React.FunctionComponent = () => {
 
                     <div>
                         <button
-                            className={"btn btn-block btn-sm mt-2 bg-green-700 hover:bg-blue-700 text-white border-none"}>
-                            Login
+                            className={"btn btn-block btn-sm mt-2 bg-green-700 hover:bg-blue-700 text-white border-none"}
+                            disabled={loading}
+                        >
+                            {
+                                loading ? <span className={"loading loading-spinner"}></span>:(
+                                    "Sign up"
+                                )
+                            }
                         </button>
                     </div>
 
