@@ -1,12 +1,12 @@
 import {create} from "zustand"
 import {Conversation} from "../utils/ConversationType.ts";
-import Conversations from "../components/Conversations/Conversations.tsx";
+import {MessageType} from "../utils/MessageType.ts";
 
 interface ConversationState{
     selectedConversation: Conversation | null;
     setSelectedConversation: (conversation: Conversation | null) => void;
-    messages: string[]; // Adjust this type if your messages are objects or a different type
-    setMessages: (messages: string[]) => void;
+    messages: MessageType[]; // Adjust this type if your messages are objects or a different type
+    setMessages: (messages: MessageType[]) => void;
 }
 
 const useConversation=create<ConversationState>((set)=>({
