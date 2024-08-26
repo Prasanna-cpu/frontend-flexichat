@@ -1,5 +1,5 @@
 import {useState} from "react";
-import apiClient from "../utils/api.ts";
+
 import {useAuthContext} from "../context/AuthContext.tsx";
 import toast from "react-hot-toast";
 
@@ -14,12 +14,13 @@ const useLogout = () => {
         setLoading(true);
 
         try{
-            const res=await apiClient.post("/api/auth/logout")
-
-            const data=res.data;
-
-            if(data.error){
-                throw new Error(data.error)
+            const res = await fetch("/api/auth/logout", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+            });
+            const data = await res.json();
+            if (data.error) {
+                throw new Error(data.error);
             }
 
             localStorage.removeItem("chat-user")

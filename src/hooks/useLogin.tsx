@@ -1,6 +1,7 @@
 import {useState} from "react";
-import apiClient from "../utils/api.ts";
+
 import toast from "react-hot-toast";
+import {useAuthContext} from "../context/AuthContext.tsx";
 
 
 interface SignInInputs {
@@ -28,6 +29,9 @@ const useLogin=()=>{
     const [loading,setLoading]=useState<boolean>(false)
 
 
+    const {setAuthUser}=useAuthContext()
+
+
     const handleLogin=async(username:string,password:string)=>{
 
 
@@ -38,20 +42,21 @@ const useLogin=()=>{
 
         setLoading(true)
         try{
-            const res=await apiClient.post("/api/auth/login",{
-                username,
-                password
-            })
 
-            const data=res.data
+            const res = await fetch("/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password }),
+            });
 
-            if(data.error){
-                toast.error(data.error)
-                throw new Error(data.error)
+            const data = await res.json();
+            if (data.error) {
+                throw new Error(data.error);
             }
 
+
             localStorage.setItem("chat-user",JSON.stringify(data))
-            setLoading(false)
+            setAuthUser(data)
         }
         catch(error){
             toast.error((error as Error).message)
