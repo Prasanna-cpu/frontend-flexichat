@@ -19,6 +19,7 @@ const Message: React.FunctionComponent<MessageProps> = ({message}) => {
     const bubbleBackgroundColor=fromMe?"bg-blue-500":""
     const formatedTime=extractTime(message.createdAt)
 
+
     return (
         <div className={`chat ${chatClassName}`}>
             <div className={"chat-image avatar"}>

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Conversation} from "../../utils/ConversationType.ts";
 import useConversation from "../../zustand/useConversation.ts";
+import {useSocketContext} from "../../context/SocketContext.tsx";
 
 interface IndividualConversationProps {
     conversation: Conversation
@@ -9,11 +10,15 @@ interface IndividualConversationProps {
 
 const IndividualConversation: React.FunctionComponent<IndividualConversationProps> = ({conversation,lastIdx}) => {
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
     const {selectedConversation,setSelectedConversation}=useConversation()
 
     const isSelected =selectedConversation?._id === conversation?._id;
+
+    const {onlineUsers}=useSocketContext()
+
+    const isOnline=onlineUsers.includes(conversation?._id)
+
 
     return (
         <div>
@@ -21,7 +26,7 @@ const IndividualConversation: React.FunctionComponent<IndividualConversationProp
                 className={`flex gap-2 items-center hover:bg-sky-700 rounded p-2 py-1 cursor-pointer ${isSelected ? "bg-sky-700" : ""}`}
                 onClick={()=>setSelectedConversation(conversation)}
             >
-                <div className={"avatar online"}>
+                <div className={`avatar ${isOnline?"online":""}`}>
                     <div className={"w-12 rounded-full "}>
                         <img src={conversation?.profilePic || ""} alt={"avatar"}/>
 

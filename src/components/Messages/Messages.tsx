@@ -3,10 +3,13 @@ import Message from "../Message/Message.tsx";
 import useGetMessages from "../../hooks/useGetMessages.tsx";
 import MessageSkeleton from "../skeletons/MessageSkeleton.tsx";
 import {MessageType} from "../../utils/MessageType.ts"
+import useListenMessages from "../../hooks/useListenMessages.tsx";
 
 const Messages :React.FunctionComponent= () => {
 
     const {messages,loading}=useGetMessages()
+
+    useListenMessages()
 
     const lastMessageRef=useRef<HTMLDivElement|null>(null);
 
